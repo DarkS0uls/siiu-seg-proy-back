@@ -1,0 +1,82 @@
+server:
+  port: 8000
+  servlet:
+    contextPath: /v1/siiu-seguimiento-proyectos/
+management:
+  endpoints:
+    web:
+      base-path: /v1/siiu-seguimiento-proyectos/actuator
+      exposure:
+        include: health,info,loggers,metrics
+swagger:
+  enabled: true
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+    com.myorg: INFO
+  pattern:
+    #console: '%d{yyyy-MM-dd HH:mm:ss.SSS} | marker=%marker |  clientId=%X{clientId} | level=%5p | thread=%thread | traceId=%X{traceId} spanId=%X{spanId} |  projectVersion=%X{projectVersion} |class=%class{15}.%L | msg="%.-50000m"%n'
+    console: '%d{yyyy-MM-dd HH:mm:ss.SSS} |level=%5p |class=%class{15}.%L | msg="%.-50000m"%n'
+
+spring:
+
+  application:
+    name: "example-ha-sdk17"
+  datasource:
+    url: jdbc:postgresql://192.168.200.156/test
+    username: transversales
+    password: transversales
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        default_schema: public
+        jdbc:
+          time_zone: UTC
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+cloud:
+  aws:
+    stack:
+      auto: false
+    region:
+      static: "us-east-1"
+    accounts:
+      digital:
+        dynamodb-role: "arn:aws:iam::848155883266:role/cross-account-pse-cashout-xbc-role-sand"
+        dynamodb-session-name: "digital-dynamodb-session"
+    dynamodb:
+      endpoint: "http://localhost:4000"
+    sqs:
+      cross-account-role: "arn:aws:iam::848155883266:role/cross-account-pse-cashout-xbc-role-sand"
+      cross-account-session-name: "digital-sqs-session"
+      end-point: http://localhost:4000
+      listeners:
+        application-events: http://localhost:4000/000000000000/pseclosingtransaction
+      queue:
+        close-transaction: http://localhost:4000/000000000000/pseclosingtransaction
+        client-alerts: http://localhost:4000/000000000000/clientalertsv2
+
+    redis:
+      project-name: PSE
+      host: localhost
+      port: 7000
+
+
+my-vars:
+  clientId: "some-micro"
+  connectionRate : 1111
+  someBoolean: false
+  projectVersion: "1.0.0"
+  traceId: "traceId"
+  spanId: "spanId"
+  log: "something"

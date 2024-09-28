@@ -1,0 +1,3 @@
+rootProject.name = 'example-ha-sdk17'
+include 'example-ha-sdk17-domain'
+include 'example-ha-sdk17-infra'

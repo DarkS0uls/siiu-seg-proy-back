@@ -1,0 +1,19 @@
+allprojects {
+  apply plugin: 'java'
+  apply plugin: 'idea'
+  //apply plugin: 'maven'
+  //apply plugin: 'maven-publish'
+  apply from: "$rootDir/gradle/code-quality/checkstyle.gradle"
+  apply from: "$rootDir/gradle/code-quality/spotbugs.gradle"
+  apply from: "$rootDir/gradle/code-quality/pmd.gradle"
+
+  idea {
+    module {
+      outputDir file('build/classes/main')
+      testOutputDir file('build/classes/test')
+    }
+  }
+  group 'com.myorg'
+  version = rootProject.version
+
+}
